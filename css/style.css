@@ -1,0 +1,15 @@
+.container{
+  margin-top: 30px;
+}
+#picture{
+  text-align: center;
+}
+#picture img{
+  height: 300px;
+}
+#question{
+  text-align: center;
+}
+#guess{
+text-align: center;
+}
