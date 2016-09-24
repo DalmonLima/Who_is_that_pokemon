@@ -13,3 +13,6 @@
 #guess{
 text-align: center;
 }
+.selected{
+  background-color: lightgreen;
+}

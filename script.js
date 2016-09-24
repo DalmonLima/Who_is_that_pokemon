@@ -1,13 +1,25 @@
 $(document).ready(function(){
-  var life = 5;
+  var life = 100;
   var points = 0;
   //Random pokemon function
   function getRandomPokemon() {
     return (Math.floor(Math.random() * 151) +1);
   }
 
+  function getRandomAnswerPosition() {
+    return (Math.floor(Math.random() * 4) +1);
+  }
+
+  function clearOptions() {
+    for (var i = 1; i < 5; i++)
+    {
+      $('input#option' + i).empty();
+    }
+  }
+
   function makeQuestion(){
-    var rdm = getRandomPokemon();
+    var rdmPokemonNumber = getRandomPokemon();
+    var rdmPosition = getRandomAnswerPosition();
 
     $.ajax({
       url: 'json/pokemon.json',
@@ -16,85 +28,53 @@ $(document).ready(function(){
       contentType: false,
       dataType: 'json',
       success: function(data){
-        console.log(data.pokemon[rdm]);
-        correctName = data.pokemon[rdm];
+        correctName = data.pokemon[rdmPokemonNumber];
+        console.log("The Pokemon name is: " + correctName);
+        console.log("The Pokemon number is: " + rdmPokemonNumber);
+        $('input#option' + rdmPosition).val(correctName);
+
       },
       error: function(e) {
           console.log('Error!', e);
       }
     });
-    console.log( rdm );
+
     $('#picture>img').remove();
-    $('#picture').append('<img src="imagens/normal/'+rdm+'.png" />');
+    $('#picture').append('<img src="imagens/normal/'+rdmPokemonNumber+'.png" />');
   }
 
   function confirm(){
-    var answer = $('input#guess').val();
+    var answer = $('.selected').val();
 
-    if (answer.length === 0) {
-      console.log("Please, insert a name!");
-    }
+    if ( answer === correctName) {
+        points++;
+        console.log(answer +" is the right answer");
+        console.log("+1 Point, you have "+ points +" point(s)!");
+        $('.selected').removeClass("selected");
+        // $('input.selected').val("CORRECT");
+        clearOptions();
+        makeQuestion();
+      }
     else {
-      // console.log(answer);
-
-      if ( answer === correctName) {
-          points++;
-          console.log("+1 Point, you have "+ points +" point(s)!");
-          $("input#guess").val("");
-          makeQuestion();
-        }
+      life--;
+      console.log(answer +" is not the answer.");
+      console.log("-1 life, you have "+ life +" life(s)!");
+      // $("input#guess").val("");
+      if (life>=0) {
+        clearOptions();
+        makeQuestion();
+      }
       else {
-        life--;
-        console.log("-1 life, you have "+ life +" life(s)!");
-        $("input#guess").val("");
-        if (life>=0) {
-          makeQuestion();
-        }
-        else {
-          alert("Game Over!")
-        }
+        alert("Game Over!")
       }
     }
-  };
+  }
 
   makeQuestion();
 
-  $('.button-primary').click(function(){
+  $('input').click(function(){
+    $(this).addClass("selected");
     confirm();
   });
-
-  $(document).keypress(function(e) {
-    if(e.which == 13) {
-      confirm();
-    }
-  });
-
-
-  // $('.button-primary').click(function(){
-  //   var answer = $('input#guess').val();
-  //
-  //   if (answer.length === 0) {
-  //     console.log("Please, insert a name!");
-  //   }
-  //   else {
-  //     // console.log(answer);
-  //
-  //     if ( answer === correctName) {
-  //         points++;
-  //         console.log("+1 Point, you have "+ points +" point(s)!");
-  //         makeQuestion();
-  //       }
-  //     else {
-  //       life--;
-  //       console.log("-1 life, you have "+ life +" life(s)!");
-  //       if (life>=0) {
-  //         makeQuestion();
-  //       }
-  //       else {
-  //         alert("Game Over!")
-  //       }
-  //     }
-  //   }
-  // });
 
 });
