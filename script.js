@@ -11,9 +11,12 @@ $(document).ready(function(){
   }
 
   function clearOptions() {
-    for (var i = 1; i < 5; i++)
-    {
-      $('input#option' + i).empty();
+    var i = 1
+    while (i<=4) {
+      $('input#option' + i).val("");
+      i++;
+      console.log(i);
+      console.log($('input#option' + i).val());
     }
   }
 
@@ -29,8 +32,9 @@ $(document).ready(function(){
       dataType: 'json',
       success: function(data){
         correctName = data.pokemon[rdmPokemonNumber];
-        console.log("The Pokemon name is: " + correctName);
-        console.log("The Pokemon number is: " + rdmPokemonNumber);
+        // TO CHECK THE RIGHT INFO ABOUT THE POKEMON
+        // console.log("The Pokemon name is: " + correctName);
+        // console.log("The Pokemon number is: " + rdmPokemonNumber);
         $('input#option' + rdmPosition).val(correctName);
 
       },
@@ -50,8 +54,8 @@ $(document).ready(function(){
         points++;
         console.log(answer +" is the right answer");
         console.log("+1 Point, you have "+ points +" point(s)!");
-        $('.selected').removeClass("selected");
-        // $('input.selected').val("CORRECT");
+        $('input.selected').val("CORRECT");
+        $('input.selected').removeClass("selected");
         clearOptions();
         makeQuestion();
       }
