@@ -13,6 +13,14 @@
 #guess{
 text-align: center;
 }
-.selected{
-  background-color: lightgreen;
+button{
+  margin-top: 30px;
+}
+.right{
+  background-color: lightgreen !important;
+  border-color: lightgreen !important;
+}
+.wrong{
+  background-color: red !important;
+  border-color: red !important;
 }
