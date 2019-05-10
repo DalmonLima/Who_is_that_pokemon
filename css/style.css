@@ -1,26 +1,36 @@
-.container{
+.container {
   margin-top: 30px;
 }
-#picture{
+.container #picture {
   text-align: center;
 }
-#picture img{
+.container #picture img {
   height: 300px;
 }
-#question{
+.container #question {
   text-align: center;
 }
-#guess{
-text-align: center;
+.container #guess {
+  text-align: center;
 }
-button{
+.container button {
   margin-top: 30px;
 }
-.right{
-  background-color: lightgreen !important;
-  border-color: lightgreen !important;
+.container .answer-option {
+  padding: 10px;
 }
-.wrong{
-  background-color: red !important;
-  border-color: red !important;
+.container .answer-option input {
+  width: 100%;
 }
+
+.right {
+  background-color: lightgreen;
+  border-color: lightgreen;
+}
+
+.wrong {
+  background-color: red;
+  border-color: red;
+}
+
+/*# sourceMappingURL=style.css.map */

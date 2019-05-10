@@ -1,49 +1,59 @@
 $(document).ready(function(){
-  var life = 100;
+  var life = 3;
   var points = 0;
-  //Random pokemon function
+  var correctName;
+
+  //Select random pokemon
   function getRandomPokemon() {
     return (Math.floor(Math.random() * 151) +1);
   }
 
+  //Define position of the right answer
   function getRandomAnswerPosition() {
     return (Math.floor(Math.random() * 4) +1);
   }
 
+  //Clear all option state
   function clearOptions() {
     var i = 1
     while (i<=4) {
-      $('input#option' + i).val("").removeClass("selected right wrong");
-      $('input.selected').removeClass("selected");
+      $('input#option' + i).val("").removeClass("right wrong");
       $('input.selected').removeClass("selected");
       i++;
     }
   }
 
+  //Generate wrong answers
   function generateOptions(){
-    var vetOpt = [];
+    var arrayOpt = [];
     for (var i = 0; i < 3; i++) {
       opt = getRandomPokemon();
-      vetOpt.push(opt);
+      arrayOpt.push(opt);
     }
-    return vetOpt;
+    return arrayOpt;
   }
 
-  function select(){
-    $('input').on("click",(function(){
+  //Select one answer
+  function mark(){
+    $('.answer-option input').on("click",(function(){
+      $(".selected").removeClass("selected");
       $(this).addClass("selected");
-      choose();
+
       if($('.selected')){
         $('input').off("click");
+        // makeQuestion();
       }
+
+      choose();
     }));
   }
 
-
+  //Make a question
   function makeQuestion(){
-    var NumberPokeAnswer = getRandomPokemon();
+    $('#picture>img').remove();
+
+    var numberPokeAnswer = getRandomPokemon();
     var rdmPosition = getRandomAnswerPosition();
-    console.log(rdmPosition);
     var options = generateOptions();
     console.log(options);
 
@@ -54,10 +64,10 @@ $(document).ready(function(){
       contentType: false,
       dataType: 'json',
       success: function(data){
-        correctName = data.pokemon[NumberPokeAnswer];
+        correctName = data.pokemon[numberPokeAnswer];
         // TO CHECK THE RIGHT INFO ABOUT THE POKEMON
-        // console.log("The Pokemon name is: " + correctName);
-        // console.log("The Pokemon number is: " + NumberPokeAnswer);
+        console.log("The Pokemon name is: " + correctName);
+        // console.log("The Pokemon number is: " + numberPokeAnswer);
         $('input#option' + rdmPosition).val(correctName);
         for (var i = 0; i < 3; i++) {
           var temp = options[i];
@@ -70,12 +80,6 @@ $(document).ready(function(){
             else{
               $('input#option4').val(wrongName);
             }
-          // for (var i = 1; i < 5; i++) {
-          //   var check = $('input#option'+ i ).val();
-          //   if (check != wrongName){
-          //     $('input#option' + i).val(wrongName);
-          //   }
-          // }
         }
       },
       error: function(e) {
@@ -83,8 +87,8 @@ $(document).ready(function(){
       }
     });
 
-    $('#picture>img').remove();
-    $('#picture').append('<img src="imagens/normal/'+NumberPokeAnswer+'.png" />');
+    $('#picture').append('<img src="imagens/normal/'+numberPokeAnswer+'.png" />');
+    mark();
   }
 
   function choose(){
@@ -92,18 +96,12 @@ $(document).ready(function(){
 
     if ( answer === correctName) {
         points++;
-        console.log(answer +" is the right answer");
-        console.log("+1 Point, you have "+ points +" point(s)!");
         $('input.selected').val("CORRECT").addClass("right");
-        // $('input.selected').removeClass("selected");
-        // clearOptions();
       }
     else {
       life--;
-      console.log(answer +" is not the answer.");
       console.log("-1 life, you have "+ life +" life(s)!");
       $('input.selected').val("INCORRECT").addClass("wrong");
-
       if (life<0) {
         alert("Game Over!");
       }
@@ -112,11 +110,11 @@ $(document).ready(function(){
 
 
   //Beggin the game!
+  clearOptions();
   makeQuestion();
-  select();
 
 
-  $('button').click(function(){
+  $('.next button').click(function(){
     clearOptions();
     makeQuestion();
   });

@@ -20,7 +20,9 @@
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/skeleton.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Favicon
@@ -29,28 +31,45 @@
 
   </head>
   <body>
+    <header>
+      <div class="container">
+        <h3 id="question">Who is that pokémon?</h3>
+        <span>Points:</span><span id="points">
+          0
+        </span>
+      </div>
+    </header>
     <div class="container">
-      <div id="picture"></div>
-      <h3 id="question">Who is that pokémon?</h3>
-      <p>
 
-      </p>
+      <div id="picture"></div>
+
       <div class="row">
-        <input id="option1" class="button-primary u-full-width six columns" type="submit" value="" >
-        <input id="option2" class="button-primary u-full-width six columns" type="submit" value="" >
+        <div class="answer-option col-lg-6">
+          <input id="option1" class="btn btn-primary" type="submit" value="">
+        </div>
+        <div class="answer-option col-lg-6">
+          <input id="option2" class="btn btn-primary" type="submit" value="">
+        </div>
       </div>
       <div class="row">
-        <input id="option3" class="button-primary u-full-width six columns" type="submit" value="" >
-        <input id="option4" class="button-primary u-full-width six columns" type="submit" value="" >
+        <div class="answer-option col-lg-6">
+          <input id="option3" class="btn btn-primary " type="submit" value="">
+        </div>
+        <div class="answer-option col-lg-6">
+          <input id="option4" class="btn btn-primary" type="submit" value="">
+        </div>
       </div>
-      <div class="row">
-        <button  class="four columns offset-by-four"type="button" name="button">NEXT</button>
+      <div class="row next">
+        <button  class="btn btn-link col-lg-12"type="button" name="button">NEXT</button>
       </div>
 
     </div>
     <!-- Script
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+
   </body>
 </html>

@@ -1,0 +1,40 @@
+$margin: 10px;
+
+.container{
+  margin-top: 30px;
+
+  #picture{
+    text-align: center;
+  }
+  #picture img{
+    height: 300px;
+  }
+  #question{
+    text-align: center;
+  }
+  #guess{
+  text-align: center;
+  }
+  button{
+    margin-top: 30px;
+  }
+
+  .answer-option{
+    padding: $margin;
+
+    input{
+      width: 100%;
+    }
+
+  }
+
+}
+
+.right{
+  background-color: lightgreen ;
+  border-color: lightgreen;
+}
+.wrong{
+  background-color: red;
+  border-color: red;
+}
