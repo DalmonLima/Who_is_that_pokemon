@@ -96,6 +96,8 @@ $(document).ready(function(){
 
     if ( answer === correctName) {
         points++;
+        $('#points').html("");
+        $('#points').append(points);
         $('input.selected').val("CORRECT").addClass("right");
       }
     else {
