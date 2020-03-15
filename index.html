@@ -34,9 +34,17 @@
     <header>
       <div class="container">
         <h3 id="question">Who is that pokémon?</h3>
-        <span>Points: </span><span id="points">
-          0
-        </span>
+        <div class='scores'>
+            <div>
+              <span>Points: </span><span id="points"></span>
+            </div>
+            <div>
+                <span>Skips: </span><span id="skips"></span>
+              </div>
+            <div>
+              <span>Life: </span><span id="life"></span>
+            </div>
+        </div>
       </div>
     </header>
     <div class="container">
@@ -60,7 +68,8 @@
         </div>
       </div>
       <div class="row next">
-        <button  class="btn btn-link col-lg-12"type="button" name="button">NEXT</button>
+        <button  id="next" class="btn btn-link col-lg-4"type="button" name="button">NEXT</button>
+        <button  id="skip" class="btn btn-link col-lg-4"type="button" name="button">SKIP</button>
       </div>
 
     </div>

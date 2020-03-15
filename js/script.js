@@ -1,7 +1,5 @@
 $(document).ready(function(){
-  var life = 3;
-  var points = 0;
-  var correctName;
+  // var $ = global.jQuery = require('jquery');
 
   //Select random pokemon
   function getRandomPokemon() {
@@ -10,10 +8,12 @@ $(document).ready(function(){
 
   //Define position of the right answer
   function getRandomAnswerPosition() {
-    return (Math.floor(Math.random() * 4) +1);
+    let rightPosition = Math.floor(Math.random() * 4) +1;
+    console.log('a opção correta é a :' + rightPosition);
+    return rightPosition;
   }
 
-  //Clear all option state
+  //Clear all options state
   function clearOptions() {
     var i = 1
     while (i<=4) {
@@ -21,6 +21,7 @@ $(document).ready(function(){
       $('input.selected').removeClass("selected");
       i++;
     }
+    $('#next').hide();
   }
 
   //Generate wrong answers
@@ -41,15 +42,16 @@ $(document).ready(function(){
 
       if($('.selected')){
         $('input').off("click");
-        // makeQuestion();
       }
-
       choose();
+      $('#next').show();
+      $('#skip').hide();
     }));
   }
 
   //Make a question
   function makeQuestion(){
+    $('#skip').show();
     $('#picture>img').remove();
 
     var numberPokeAnswer = getRandomPokemon();
@@ -57,21 +59,19 @@ $(document).ready(function(){
     var options = generateOptions();
     console.log(options);
 
-    $.ajax({
-      url: 'json/pokemon.json',
-      type: 'GET',
-      processData: false,
-      contentType: false,
-      dataType: 'json',
-      success: function(data){
-        correctName = data.pokemon[numberPokeAnswer];
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=151')
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      correctName = data.results[numberPokeAnswer - 1].name;
+      console.log(correctName);
         // TO CHECK THE RIGHT INFO ABOUT THE POKEMON
         console.log("The Pokemon name is: " + correctName);
         // console.log("The Pokemon number is: " + numberPokeAnswer);
         $('input#option' + rdmPosition).val(correctName);
         for (var i = 0; i < 3; i++) {
           var temp = options[i];
-          var wrongName = data.pokemon[temp];
+          var wrongName = data.results[temp].name;
           console.log(wrongName);
           var check = $('input#option'+ (i+1)).val();
             if (check != correctName){
@@ -80,43 +80,62 @@ $(document).ready(function(){
             else{
               $('input#option4').val(wrongName);
             }
-        }
-      },
-      error: function(e) {
-          console.log('Error!', e);
-      }
-    });
+        };
+      console.log(data);
+    })
+    .catch(err => console.error(err));
 
     $('#picture').append('<img src="imagens/normal/'+numberPokeAnswer+'.png" />');
     mark();
   }
 
   function choose(){
-    var answer = $('.selected').val();
-
+    answer = $('.selected').val();
+    
     if ( answer === correctName) {
         points++;
-        $('#points').html("");
-        $('#points').append(points);
-        $('input.selected').val("CORRECT").addClass("right");
+        $('#points').html(points);
+        $('input.selected').addClass("right");
       }
     else {
       life--;
+      $('#life').html(life);
       console.log("-1 life, you have "+ life +" life(s)!");
-      $('input.selected').val("INCORRECT").addClass("wrong");
-      if (life<0) {
+      $('input.selected').addClass("wrong");
+      if (life<1) {
         alert("Game Over!");
       }
     }
-  }
-
+  };
+  
+  function skipping(){
+    skips--;
+    $('#skips').html(skips);
+    if (skips<1) {
+      $('#skip').hide();
+    }
+  };
 
   //Beggin the game!
+  let life = 5;
+  let skips = 3;
+  let points = 0;
+  let correctName;
+  let answer = null;
+
+  $('#points').html(points);
+  $('#skips').html(skips);
+  $('#life').html(life);
   clearOptions();
   makeQuestion();
+  
+  $('#skip').click(function(){
+    clearOptions();
+    makeQuestion();
+    skipping()
+  });
 
-
-  $('.next button').click(function(){
+  $('#next').click(function(){
     clearOptions();
     makeQuestion();
   });

@@ -23,7 +23,17 @@
   width: 100%;
 }
 
+.scores{
+  display: flex;
+  justify-content: space-between;
+}
+
 .right {
+  background-color: green;
+  border-color: green;
+}
+
+.right:hover {
   background-color: green;
   border-color: green;
 }
@@ -31,6 +41,16 @@
 .wrong {
   background-color: red;
   border-color: red;
+}
+
+.wrong:hover {
+  background-color: red;
+  border-color: red;
+}
+
+.next{
+  display: flex;
+  justify-content: flex-end;
 }
 
 /*# sourceMappingURL=style.css.map */
